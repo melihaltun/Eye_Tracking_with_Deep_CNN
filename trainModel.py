@@ -117,7 +117,7 @@ if os.path.isfile('./models/model_checkpoint.h5'):
     model = load_model('./models/model_checkpoint.h5')
 
 # Train the model
-model.fit(train_dataset, epochs=1, batch_size=batch_sz, validation_data=valid_dataset, callbacks=[model_checkpoint_callback])
+model.fit(train_dataset, epochs=num_epochs, batch_size=batch_sz, validation_data=valid_dataset, callbacks=[model_checkpoint_callback])
 
 predictions = model.predict(x=test_dataset)
 
@@ -127,5 +127,3 @@ mse_test_err = np.mean(test_errors**2, axis=0)
 
 print('Mean Square Test Errors(x, y) = ')
 print(mse_test_err)
-
-dummy = 1
