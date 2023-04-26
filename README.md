@@ -5,6 +5,8 @@ A tensorflow/keras model is developed here to track eye motions in videos.
 The model is trained, validated and tested with Labeled Pupils in the Wild (LPW) dataset:
 https://perceptualui.org/research/datasets/LPW/
 
+![image](https://user-images.githubusercontent.com/40482921/234497211-f76d938e-45b3-4c86-a4e5-c013bbd53c55.png)
+
 The repository consists of 4 Python scripts
 
 1) selectTrainTestValData.py randomly selects videos for training, validation and test sets
