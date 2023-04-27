@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 import os
-from tqdm import tqdm
 import tensorflow as tf
 import keras
 from keras.models import Model, load_model
@@ -53,7 +52,7 @@ def load_and_preprocess_image(image_path, mean_gray):
     image = tf.io.read_file(image_path)
     # decode jpeg encoded image
     image = tf.image.decode_jpeg(image, channels=1)
-    # normalize pixel values to be in the range [0, 1] and subtract r,g,b mean
+    # normalize pixel values to be in the range [0, 1] and subtract mean intensity
     image = tf.cast(image, tf.float32) / 255.0
     image = tf.subtract(image, mean_gray)
     return image
@@ -71,35 +70,31 @@ valid_dataset = tf.data.Dataset.from_tensor_slices((valid_files, valid_targets))
 valid_dataset = valid_dataset.map(lambda x, y: (load_and_preprocess_image(x, meanIntensity), y))
 valid_dataset = valid_dataset.batch(batch_sz)
 
+#train_dataset = train_dataset.shuffle(buffer_size=10000)
+#train_dataset = train_dataset.shuffle(buffer_size=10000)
 
 def create_model(input_shape):
     input_layer = Input(shape=input_shape)
-    conv1 = Conv2D(16, (17, 17), activation='relu', padding='same')(input_layer)
+    conv1 = Conv2D(8, (17, 17), activation='relu', padding='same')(input_layer)
     pool1 = MaxPooling2D(pool_size=(2,2))(conv1)
-    conv2 = Conv2D(32, (9, 9), activation='relu', padding='same')(pool1)
-    pool2 = MaxPooling2D(pool_size=(2,2))(conv2)
-    conv3 = Conv2D(64, (5, 5), activation='relu', padding='same')(pool2)
-    pool3 = MaxPooling2D(pool_size=(2,2))(conv3)
-    conv4 = Conv2D(128, (3, 3), activation='relu', padding='same')(pool3)
-    conv5 = Conv2D(256, (3, 3), activation='relu', padding='same')(conv4)
-    flatten = Flatten()(conv5)
-    dense1 = Dense(256, activation='relu')(flatten)
-    dropout1 = Dropout(0.1)(dense1)
-    dense2 = Dense(64, activation='relu')(dropout1)
-    dropout2 = Dropout(0.1)(dense2)
-    dense3 = Dense(64, activation='relu')(dropout2)
-    x_output = Dense(1, activation='linear', name='x_output')(dense3)
-    y_output = Dense(1, activation='linear', name='y_output')(dense3)
+    conv2 = Conv2D(16, (9, 9), activation='relu', padding='same')(pool1)
+    conv3 = Conv2D(32, (5, 5), activation='relu', padding='same')(conv2)
+    conv4 = Conv2D(64, (3, 3), activation='relu', padding='same')(conv3)
+    flatten = Flatten()(conv4)
+    dense1 = Dense(128, activation='relu')(flatten)
+    #dropout1 = Dropout(0.01)(dense1)
+    dense2 = Dense(64, activation='relu')(dense1)
+    x_output = Dense(1, activation='linear', name='x_output')(dense2)
+    y_output = Dense(1, activation='linear', name='y_output')(dense2)
     model = Model(inputs=input_layer, outputs=[x_output, y_output])
-    model.compile(optimizer='adam', loss='mse')
+    #model.compile(optimizer=Adam(learning_rate=0.05), loss='mse')
+    model.compile(optimizer='sgd', loss='mse')
     return model
 
 # Create the model
 input_shape = (M, N, 1)
 model = create_model(input_shape)
 model.summary()
-
-model.compile(optimizer='adam', loss='mse')
 
 # set checkpoints to save after each epoch
 checkpoint_filepath = './models/model_checkpoint.h5'
@@ -127,3 +122,6 @@ mse_test_err = np.mean(test_errors**2, axis=0)
 
 print('Mean Square Test Errors(x, y) = ')
 print(mse_test_err)
+
+# save target vs predicted x, y
+latestRes = np.savetxt('res.csv', np.concatenate((test_targets, pred2), axis=1), delimiter=',')
