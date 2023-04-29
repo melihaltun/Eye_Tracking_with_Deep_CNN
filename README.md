@@ -22,3 +22,7 @@ To use the scripts, download the LPW dataset to your local and adjust folder loc
 Utilizing GPU is recommended. A single epoch with CPU may take over an hour to complete.  
 
 Recommended configuration is: Python 3.8, Tensorflow 2.10.0, CUDA 11.2, CUDNN 8.8.1 and Zlib.
+
+![eye_tracker_2](https://user-images.githubusercontent.com/40482921/235327664-1a9024f0-cfaa-4776-a058-c03385fd02c8.PNG)
+
+![eye_tracker](https://user-images.githubusercontent.com/40482921/235327674-7dff69a1-2a11-44fb-86b2-851c6124a26e.PNG)
