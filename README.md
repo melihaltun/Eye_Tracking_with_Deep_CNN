@@ -9,13 +9,13 @@ https://perceptualui.org/research/datasets/LPW/
 
 The repository consists of 4 Python scripts
 
-1) selectTrainTestValData.py randomly selects videos for training, validation and test sets
+1) selectTrainTestValData.py randomly selects videos for training, validation and, test sets
 
 2) getMeanIntensity.py scans the training data and finds the mean intensity for all the frames in all of the videos
 
-3) vid2Frames.py extracts frames from videos, resizes, converts them to grayscale and saves them in train, validation and test folders
+3) vid2Frames.py extracts frames from videos, resizes, converts them to grayscale, and saves them in train, validation and test folders
 
-4) trainModel.py forms a CNN model, forms train test and validation sets and trains the model with selected parameters. Finally it measures the accuracy of the model using the test set.
+4) trainModel.py forms a CNN model, forms train, test and, validation sets and trains the model with selected parameters. Finally, it measures the accuracy of the model using the test set.
 
 To use the scripts, download the LPW dataset to your local and adjust folder locations in the scripts. 
 
