@@ -49,8 +49,6 @@ def grayscale_and_resize(videoFiles, targetFiles, downSample, outputPath):
     df = pd.DataFrame(data)
     df.to_csv(outputPath+'targets.csv', index=False)
 
-    dummy = 1
-
     for file_path in videoFiles:
         cap = cv2.VideoCapture(file_path)
         frame_count = 0
@@ -72,10 +70,6 @@ def grayscale_and_resize(videoFiles, targetFiles, downSample, outputPath):
             cv2.imwrite(outputPath+outputFrame, frame)
         # Release video capture object
         cap.release()
-
-
-
-
 
 train_file_list = readStoredFiles(folder, train_files)
 valid_file_list = readStoredFiles(folder, valid_files)
