@@ -7,7 +7,7 @@ https://perceptualui.org/research/datasets/LPW/
 
 ![image](https://user-images.githubusercontent.com/40482921/234497211-f76d938e-45b3-4c86-a4e5-c013bbd53c55.png)
 
-The repository consists of 4 Python scripts
+The repository consists of 4 Python scripts. Once the dataset is downloaded and the paths in the scripts are modified to point to the dataset, run the scripts in the given order.
 
 1) selectTrainTestValData.py randomly selects videos for training, validation and, test sets
 
